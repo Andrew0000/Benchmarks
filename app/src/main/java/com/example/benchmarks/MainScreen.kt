@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.innerShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.shadow.Shadow
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -31,7 +32,9 @@ import com.example.benchmarks.ui.theme.BenchmarksTheme
 @Composable
 fun MainScreen() {
     LazyColumn(
-        modifier = Modifier.imePadding(),
+        modifier = Modifier
+            .imePadding()
+            .testTag("Main scroll"),
     ) {
         item {
             Spacer(

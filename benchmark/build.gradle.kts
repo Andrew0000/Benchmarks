@@ -39,10 +39,18 @@ android {
 }
 
 dependencies {
+    implementation(project(":app"))
+
     implementation(libs.androidx.junit)
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.uiautomator)
     implementation(libs.androidx.benchmark.macro.junit4)
+
+    implementation(libs.androidx.junit)
+    implementation(libs.androidx.espresso.core)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui.test.junit4)
+
 }
 
 androidComponents {
