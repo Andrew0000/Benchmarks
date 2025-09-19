@@ -1,7 +1,6 @@
 package com.example.benchmarks
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -43,12 +42,12 @@ fun MainScreen() {
         }
         repeat(100) {
             item {
-                RealisticShadows(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(120.dp)
-                        .padding(bottom = 16.dp)
-                )
+                val modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+                    .padding(bottom = 16.dp)
+                SimpleShadow(modifier)
+            //    RealisticShadows(modifier)
             }
         }
         item {
@@ -154,6 +153,42 @@ fun RealisticShadows(
         ) {
             Text(
                 "Realistic Shadows",
+                modifier = Modifier.align(Alignment.Center),
+                fontSize = 24.sp,
+                color = Color.White
+            )
+        }
+    }
+}
+
+@Composable
+fun SimpleShadow(
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier) {
+        val dropShadowColor1 = Color(0xB3000000)
+        Box(
+            Modifier
+                .width(300.dp)
+                .height(200.dp)
+                .align(Alignment.Center)
+                .dropShadow(
+                    shape = RoundedCornerShape(100.dp),
+                    shadow = Shadow(
+                        radius = 40.dp,
+                        spread = 0.dp,
+                        color = dropShadowColor1,
+                        offset = DpOffset(x = 2.dp, 8.dp)
+                    )
+                )
+                // note that the background needs to be defined before defining the inner shadow
+                .background(
+                    color = Color.Black,
+                    shape = RoundedCornerShape(100.dp)
+                )
+        ) {
+            Text(
+                "Simple Shadow",
                 modifier = Modifier.align(Alignment.Center),
                 fontSize = 24.sp,
                 color = Color.White
