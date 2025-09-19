@@ -11,15 +11,11 @@ import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.IntOffset
-import androidx.navigation3.runtime.NavBackStack
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -103,22 +99,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-class BackStackMediator(
-    private val list: NavBackStack<NavKey>,
-) {
-
-    fun back() {
-        list.removeLastOrNull()
-    }
-
-    fun navigate(to: NavKey) {
-        if (list.contains(to)) return
-        list += to
-    }
-}
-
-val LocalBackStack = compositionLocalOf {
-    BackStackMediator(NavBackStack(mutableStateListOf()))
 }
