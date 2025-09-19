@@ -17,6 +17,10 @@ android {
         targetSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Allow running on emulator
+        testInstrumentationRunnerArguments["androidx.benchmark.suppressErrors"] = "EMULATOR"
+        // Workaround for Xiaomi which doesn't deliver a broadcast
+        testInstrumentationRunnerArguments["androidx.benchmark.dropShaders.enable"] = "false"
     }
 
     buildTypes {
