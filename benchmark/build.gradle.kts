@@ -7,6 +7,11 @@ android {
     namespace = "com.example.benchmark"
     compileSdk = 36
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
     defaultConfig {
         minSdk = 28
         targetSdk = 36
