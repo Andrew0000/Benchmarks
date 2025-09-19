@@ -12,9 +12,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BenchmarksTheme {
-                MainScreen(
-                    name = "Android",
-                )
+                MainScreen()
             }
         }
     }

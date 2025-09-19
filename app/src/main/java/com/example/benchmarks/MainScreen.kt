@@ -1,10 +1,19 @@
 package com.example.benchmarks
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsTopHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,18 +30,34 @@ import androidx.compose.ui.unit.sp
 import com.example.benchmarks.ui.theme.BenchmarksTheme
 
 @Composable
-fun MainScreen(name: String) {
-    Text(
-        text = "Hello $name!",
-    )
-    RealisticShadows()
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun Preview() {
-    BenchmarksTheme {
-        MainScreen("Android")
+fun MainScreen() {
+    LazyColumn(
+        modifier = Modifier.imePadding(),
+    ) {
+        item {
+            Spacer(
+                Modifier.windowInsetsTopHeight(
+                    WindowInsets.systemBars
+                )
+            )
+        }
+        repeat(100) {
+            item {
+                RealisticShadows(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .padding(bottom = 16.dp)
+                )
+            }
+        }
+        item {
+            Spacer(
+                Modifier.windowInsetsBottomHeight(
+                    WindowInsets.systemBars
+                )
+            )
+        }
     }
 }
 
@@ -40,8 +65,10 @@ private fun Preview() {
 https://developer.android.com/develop/ui/compose/graphics/draw/shadows#create-realistic
  */
 @Composable
-fun RealisticShadows() {
-    Box(Modifier.fillMaxSize()) {
+fun RealisticShadows(
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier) {
         val dropShadowColor1 = Color(0xB3000000)
         val dropShadowColor2 = Color(0x66000000)
 
@@ -132,5 +159,13 @@ fun RealisticShadows() {
                 color = Color.White
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview() {
+    BenchmarksTheme {
+        MainScreen()
     }
 }
