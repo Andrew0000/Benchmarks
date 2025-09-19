@@ -10,10 +10,16 @@ import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.IntOffset
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -46,44 +52,73 @@ class MainActivity : ComponentActivity() {
                         entry<NavDest.RealisticShadowsWithScroll> { ScrollableShadowsScreen(simple = false) }
                     }
 
-                    NavDisplay(
-                        backStack = backStackList,
-                        modifier = Modifier.fillMaxSize(),
-                        entryProvider = entryProvider,
-                        onBack = { count ->
-                            repeat(count) {
-                                if (backStackList.isNotEmpty()) {
-                                    backStackList.removeLastOrNull()
+                    val backStackMediator = remember { BackStackMediator(backStackList) }
+                    CompositionLocalProvider(LocalBackStack provides backStackMediator) {
+                        NavDisplay(
+                            backStack = backStackList,
+                            modifier = Modifier.fillMaxSize(),
+                            entryProvider = entryProvider,
+                            onBack = { count ->
+                                repeat(count) {
+                                    if (backStackList.isNotEmpty()) {
+                                        backStackList.removeLastOrNull()
+                                    }
                                 }
-                            }
-                        },
-                        transitionSpec = {
-                            ContentTransform(
-                                slideIn(
-                                    animationSpec = tween(DEFAULT_TRANSITION_DURATION_MILLISECOND),
-                                    initialOffset = { IntOffset(it.width, 0) },
-                                ),
-                                slideOut(
-                                    animationSpec = tween(DEFAULT_TRANSITION_DURATION_MILLISECOND),
-                                    targetOffset = { IntOffset(-it.width, 0) },
-                                ),
-                            )
-                        },
-                        popTransitionSpec = {
-                            ContentTransform(
-                                slideIn(
-                                    animationSpec = tween(DEFAULT_TRANSITION_DURATION_MILLISECOND),
-                                    initialOffset = { IntOffset(-it.width, 0) },
-                                ),
-                                slideOut(
-                                    animationSpec = tween(DEFAULT_TRANSITION_DURATION_MILLISECOND),
-                                    targetOffset = { IntOffset(it.width, 0) },
-                                ),
-                            )
-                        },
-                    )
+                            },
+                            transitionSpec = {
+                                ContentTransform(
+                                    slideIn(
+                                        animationSpec = tween(
+                                            DEFAULT_TRANSITION_DURATION_MILLISECOND
+                                        ),
+                                        initialOffset = { IntOffset(it.width, 0) },
+                                    ),
+                                    slideOut(
+                                        animationSpec = tween(
+                                            DEFAULT_TRANSITION_DURATION_MILLISECOND
+                                        ),
+                                        targetOffset = { IntOffset(-it.width, 0) },
+                                    ),
+                                )
+                            },
+                            popTransitionSpec = {
+                                ContentTransform(
+                                    slideIn(
+                                        animationSpec = tween(
+                                            DEFAULT_TRANSITION_DURATION_MILLISECOND
+                                        ),
+                                        initialOffset = { IntOffset(-it.width, 0) },
+                                    ),
+                                    slideOut(
+                                        animationSpec = tween(
+                                            DEFAULT_TRANSITION_DURATION_MILLISECOND
+                                        ),
+                                        targetOffset = { IntOffset(it.width, 0) },
+                                    ),
+                                )
+                            },
+                        )
+                    }
                 }
             }
         }
     }
+}
+
+class BackStackMediator(
+    private val list: NavBackStack<NavKey>,
+) {
+
+    fun back() {
+        list.removeLastOrNull()
+    }
+
+    fun navigate(to: NavKey) {
+        if (list.contains(to)) return
+        list += to
+    }
+}
+
+val LocalBackStack = compositionLocalOf {
+    BackStackMediator(NavBackStack(mutableStateListOf()))
 }
