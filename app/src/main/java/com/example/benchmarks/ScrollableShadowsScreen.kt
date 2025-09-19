@@ -36,7 +36,7 @@ fun ScrollableShadowsScreen(
     LazyColumn(
         modifier = Modifier
             .imePadding()
-            .testTag("Main scroll"),
+            .testTag("main_scroll"),
     ) {
         item {
             Spacer(

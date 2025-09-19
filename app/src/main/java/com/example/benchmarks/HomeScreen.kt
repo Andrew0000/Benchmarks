@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -29,14 +30,16 @@ fun HomeScreen() {
         ) {
             Button(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(1f)
+                    .testTag("nav_to_simple_shadows"),
                 onClick = { backStack.navigate(NavDest.SimpleShadowsWithScroll) }
             ) {
                 Text("Simple\nshadows")
             }
             Button(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(1f)
+                    .testTag("nav_to_realistic_shadows"),
                 onClick = { backStack.navigate(NavDest.RealisticShadowsWithScroll) }
             ) {
                 Text("Realistic\nshadows")

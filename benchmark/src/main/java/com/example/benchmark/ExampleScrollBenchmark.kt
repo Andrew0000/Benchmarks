@@ -17,7 +17,7 @@ class ExampleScrollBenchmark {
     val benchmarkRule = MacrobenchmarkRule()
 
     @Test
-    fun scroll() = benchmarkRule.measureRepeated(
+    fun scrollSimpleShadows() = benchmarkRule.measureRepeated(
         packageName = "com.example.benchmarks",
         metrics = listOf(FrameTimingMetric()),
         iterations = 5,
@@ -25,7 +25,28 @@ class ExampleScrollBenchmark {
     ) {
         pressHome()
         startActivityAndWait()
-        val list = device.findObject(By.res("Main scroll"))
+        device.waitForIdle()
+        val btn = device.findObject(By.res("nav_to_simple_shadows"))
+        btn.click()
+        device.waitForIdle()
+        val list = device.findObject(By.res("main_scroll"))
+        list.fling(Direction.DOWN)
+    }
+
+    @Test
+    fun scrollRealisticShadows() = benchmarkRule.measureRepeated(
+        packageName = "com.example.benchmarks",
+        metrics = listOf(FrameTimingMetric()),
+        iterations = 5,
+        startupMode = StartupMode.COLD
+    ) {
+        pressHome()
+        startActivityAndWait()
+        device.waitForIdle()
+        val btn = device.findObject(By.res("nav_to_realistic_shadows"))
+        btn.click()
+        device.waitForIdle()
+        val list = device.findObject(By.res("main_scroll"))
         list.fling(Direction.DOWN)
     }
 }
