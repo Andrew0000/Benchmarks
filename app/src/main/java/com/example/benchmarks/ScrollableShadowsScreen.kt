@@ -30,7 +30,9 @@ import androidx.compose.ui.unit.sp
 import com.example.benchmarks.ui.theme.BenchmarksTheme
 
 @Composable
-fun MainScreen() {
+fun ScrollableShadowsScreen(
+    simple: Boolean
+) {
     LazyColumn(
         modifier = Modifier
             .imePadding()
@@ -49,8 +51,11 @@ fun MainScreen() {
                     .fillMaxWidth()
                     .height(120.dp)
                     .padding(bottom = 16.dp)
-                SimpleShadow(modifier)
-            //    RealisticShadows(modifier)
+                if (simple) {
+                    SimpleShadow(modifier)
+                } else {
+                    RealisticShadows(modifier)
+                }
             }
         }
         item {
@@ -204,6 +209,14 @@ fun SimpleShadow(
 @Composable
 private fun Preview() {
     BenchmarksTheme {
-        MainScreen()
+        ScrollableShadowsScreen(simple = true)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview2() {
+    BenchmarksTheme {
+        ScrollableShadowsScreen(simple = false)
     }
 }
