@@ -49,4 +49,38 @@ class ExampleScrollBenchmark {
         val list = device.findObject(By.res("main_scroll"))
         list.fling(Direction.DOWN)
     }
+
+    @Test
+    fun scrollNoShadows() = benchmarkRule.measureRepeated(
+        packageName = "com.example.benchmarks",
+        metrics = listOf(FrameTimingMetric()),
+        iterations = 5,
+        startupMode = StartupMode.COLD
+    ) {
+        pressHome()
+        startActivityAndWait()
+        device.waitForIdle()
+        val btn = device.findObject(By.res("nav_to_no_shadows"))
+        btn.click()
+        device.waitForIdle()
+        val list = device.findObject(By.res("main_scroll"))
+        list.fling(Direction.DOWN)
+    }
+
+    @Test
+    fun scrollNeuromorphicShadows() = benchmarkRule.measureRepeated(
+        packageName = "com.example.benchmarks",
+        metrics = listOf(FrameTimingMetric()),
+        iterations = 5,
+        startupMode = StartupMode.COLD
+    ) {
+        pressHome()
+        startActivityAndWait()
+        device.waitForIdle()
+        val btn = device.findObject(By.res("nav_to_no_neuromorphic_shadows"))
+        btn.click()
+        device.waitForIdle()
+        val list = device.findObject(By.res("main_scroll"))
+        list.fling(Direction.DOWN)
+    }
 }
