@@ -41,11 +41,25 @@ class MainActivity : ComponentActivity() {
 
                     val entryProvider = entryProvider<Any> {
 
-                        entry<NavDest.Home> { HomeScreen() }
+                        entry<NavDest.Home> {
+                            HomeScreen()
+                        }
 
-                        entry<NavDest.SimpleShadowsWithScroll> { ScrollableShadowsScreen(simple = true) }
+                        entry<NavDest.NoShadowsWithScroll> {
+                            ScrollableShadowsScreen(ScrollableShadowsMode.NONE)
+                        }
 
-                        entry<NavDest.RealisticShadowsWithScroll> { ScrollableShadowsScreen(simple = false) }
+                        entry<NavDest.ElevationShadowsWithScroll> {
+                            ScrollableShadowsScreen(ScrollableShadowsMode.ELEVATION)
+                        }
+
+                        entry<NavDest.SimpleShadowsWithScroll> {
+                            ScrollableShadowsScreen(ScrollableShadowsMode.SIMPLE)
+                        }
+
+                        entry<NavDest.RealisticShadowsWithScroll> {
+                            ScrollableShadowsScreen(ScrollableShadowsMode.REALISTIC)
+                        }
                     }
 
                     val backStackMediator = remember { BackStackMediator(backStackList) }

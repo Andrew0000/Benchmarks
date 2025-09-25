@@ -9,6 +9,12 @@ sealed interface NavDest : NavKey {
     data object Home : NavDest
 
     @Serializable
+    data object NoShadowsWithScroll : NavDest
+
+    @Serializable
+    data object ElevationShadowsWithScroll : NavDest
+
+    @Serializable
     data object SimpleShadowsWithScroll : NavDest
 
     @Serializable

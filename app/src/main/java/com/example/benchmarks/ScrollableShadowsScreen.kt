@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,9 +32,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.benchmarks.ui.theme.BenchmarksTheme
 
+enum class ScrollableShadowsMode {
+    NONE,
+    REALISTIC,
+    SIMPLE,
+    ELEVATION,
+}
+
 @Composable
 fun ScrollableShadowsScreen(
-    simple: Boolean
+    mode: ScrollableShadowsMode
 ) {
     LazyColumn(
         modifier = Modifier
@@ -51,10 +61,11 @@ fun ScrollableShadowsScreen(
                     .fillMaxWidth()
                     .height(120.dp)
                     .padding(bottom = 16.dp)
-                if (simple) {
-                    SimpleShadow(modifier)
-                } else {
-                    RealisticShadows(modifier)
+                when (mode) {
+                    ScrollableShadowsMode.NONE -> ElementWithNoShadows(modifier)
+                    ScrollableShadowsMode.REALISTIC -> RealisticShadows(modifier)
+                    ScrollableShadowsMode.SIMPLE -> SimpleShadow(modifier)
+                    ScrollableShadowsMode.ELEVATION -> ElevatedCard(modifier)
                 }
             }
         }
@@ -205,11 +216,69 @@ fun SimpleShadow(
     }
 }
 
+@Composable
+fun ElevatedCard(
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier) {
+        Card(
+            modifier = Modifier
+                .width(300.dp)
+                .height(200.dp)
+                .align(Alignment.Center),
+            shape = RoundedCornerShape(100.dp),
+            colors = CardDefaults.cardColors()
+                .copy(
+                    containerColor = Color.Black
+                ),
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 16.dp
+            ),
+        ) {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    "Elevated",
+                    modifier = Modifier.align(Alignment.Center),
+                    fontSize = 24.sp,
+                    color = Color.White
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ElementWithNoShadows(
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier) {
+        Box(
+            Modifier
+                .width(300.dp)
+                .height(200.dp)
+                .align(Alignment.Center)
+                .background(
+                    color = Color.Black,
+                    shape = RoundedCornerShape(100.dp)
+                )
+        ) {
+            Text(
+                "No Shadow",
+                modifier = Modifier.align(Alignment.Center),
+                fontSize = 24.sp,
+                color = Color.White
+            )
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun Preview() {
     BenchmarksTheme {
-        ScrollableShadowsScreen(simple = true)
+        ScrollableShadowsScreen(ScrollableShadowsMode.NONE)
     }
 }
 
@@ -217,6 +286,22 @@ private fun Preview() {
 @Composable
 private fun Preview2() {
     BenchmarksTheme {
-        ScrollableShadowsScreen(simple = false)
+        ScrollableShadowsScreen(ScrollableShadowsMode.REALISTIC)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview3() {
+    BenchmarksTheme {
+        ScrollableShadowsScreen(ScrollableShadowsMode.SIMPLE)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun Preview4() {
+    BenchmarksTheme {
+        ScrollableShadowsScreen(ScrollableShadowsMode.ELEVATION)
     }
 }

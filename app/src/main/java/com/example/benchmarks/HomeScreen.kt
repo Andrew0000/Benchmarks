@@ -20,9 +20,11 @@ fun HomeScreen() {
         modifier = Modifier
             .fillMaxSize()
             .safeDrawingPadding()
-            .padding(32.dp)
+            .padding(32.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         val backStack = LocalBackStack.current
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -43,6 +45,29 @@ fun HomeScreen() {
                 onClick = { backStack.navigate(NavDest.RealisticShadowsWithScroll) }
             ) {
                 Text("Realistic\nshadows")
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(32.dp),
+        ) {
+            Button(
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("nav_to_no_shadows"),
+                onClick = { backStack.navigate(NavDest.NoShadowsWithScroll) }
+            ) {
+                Text("No\nshadows")
+            }
+            Button(
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("nav_to_elevation_shadows"),
+                onClick = { backStack.navigate(NavDest.ElevationShadowsWithScroll) }
+            ) {
+                Text("Elevation\nshadows")
             }
         }
     }
