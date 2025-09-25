@@ -37,7 +37,10 @@ enum class ScrollableShadowsMode {
     REALISTIC,
     SIMPLE,
     ELEVATION,
+    NEUROMORPHIC,
 }
+
+private const val NEUROMORPHIC_BG_COLOR = 0xFFE2E2E2
 
 @Composable
 fun ScrollableShadowsScreen(
@@ -45,6 +48,14 @@ fun ScrollableShadowsScreen(
 ) {
     LazyColumn(
         modifier = Modifier
+            .background(
+                when (mode) {
+                    ScrollableShadowsMode.NEUROMORPHIC ->
+                        Color(NEUROMORPHIC_BG_COLOR)
+                    else ->
+                        Color.Transparent
+                }
+            )
             .imePadding()
             .testTag("main_scroll"),
     ) {
@@ -66,6 +77,7 @@ fun ScrollableShadowsScreen(
                     ScrollableShadowsMode.REALISTIC -> RealisticShadows(modifier)
                     ScrollableShadowsMode.SIMPLE -> SimpleShadow(modifier)
                     ScrollableShadowsMode.ELEVATION -> ElevatedCard(modifier)
+                    ScrollableShadowsMode.NEUROMORPHIC -> NeuromorphicElement(modifier)
                 }
             }
         }
@@ -216,6 +228,60 @@ fun SimpleShadow(
     }
 }
 
+/*
+https://developer.android.com/develop/ui/compose/graphics/draw/shadows#create-neumorphic
+ */
+@Composable
+fun NeuromorphicElement(
+    modifier: Modifier = Modifier,
+) {
+    Box(modifier) {
+        val shape = RoundedCornerShape(100.dp)
+        val bgColor = Color(0xFFe0e0e0)
+        val lightShadow = Color(0xFFFFFFFF)
+        val darkShadow = Color(0xFFb1b1b1)
+        val upperOffset = -10.dp
+        val lowerOffset = 10.dp
+        val radius = 15.dp
+        val spread = 0.dp
+        Box(
+            Modifier
+                .width(300.dp)
+                .height(200.dp)
+                .align(Alignment.Center)
+                .dropShadow(
+                    shape,
+                    shadow = Shadow(
+                        radius = radius,
+                        color = lightShadow,
+                        spread = spread,
+                        offset = DpOffset(upperOffset, upperOffset)
+                    ),
+                )
+                .dropShadow(
+                    shape,
+                    shadow = Shadow(
+                        radius = radius,
+                        color = darkShadow,
+                        spread = spread,
+                        offset = DpOffset(lowerOffset, lowerOffset)
+                    ),
+                )
+                .background(
+                    color = bgColor,
+                    shape = RoundedCornerShape(100.dp)
+                )
+        ) {
+            Text(
+                "Neuromorphic",
+                modifier = Modifier.align(Alignment.Center),
+                fontSize = 24.sp,
+                color = Color.DarkGray
+            )
+        }
+    }
+}
+
 @Composable
 fun ElevatedCard(
     modifier: Modifier = Modifier,
@@ -303,5 +369,13 @@ private fun Preview3() {
 private fun Preview4() {
     BenchmarksTheme {
         ScrollableShadowsScreen(ScrollableShadowsMode.ELEVATION)
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = NEUROMORPHIC_BG_COLOR)
+@Composable
+private fun Preview5() {
+    BenchmarksTheme {
+        ScrollableShadowsScreen(ScrollableShadowsMode.NEUROMORPHIC)
     }
 }

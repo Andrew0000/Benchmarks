@@ -60,6 +60,10 @@ class MainActivity : ComponentActivity() {
                         entry<NavDest.RealisticShadowsWithScroll> {
                             ScrollableShadowsScreen(ScrollableShadowsMode.REALISTIC)
                         }
+
+                        entry<NavDest.NeuromorphicShadowsWithScroll> {
+                            ScrollableShadowsScreen(ScrollableShadowsMode.NEUROMORPHIC)
+                        }
                     }
 
                     val backStackMediator = remember { BackStackMediator(backStackList) }

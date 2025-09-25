@@ -70,5 +70,20 @@ fun HomeScreen() {
                 Text("Elevation\nshadows")
             }
         }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(32.dp),
+        ) {
+            Button(
+                modifier = Modifier
+                    .weight(1f)
+                    .testTag("nav_to_no_neuromorphic_shadows"),
+                onClick = { backStack.navigate(NavDest.NeuromorphicShadowsWithScroll) }
+            ) {
+                Text("Neuromorphic")
+            }
+        }
     }
 }

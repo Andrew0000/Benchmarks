@@ -20,4 +20,7 @@ sealed interface NavDest : NavKey {
     @Serializable
     data object RealisticShadowsWithScroll : NavDest
 
+    @Serializable
+    data object NeuromorphicShadowsWithScroll : NavDest
+
 }
